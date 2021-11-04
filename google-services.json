@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "94622723204",
+    "project_id": "immigration-a7bce",
+    "storage_bucket": "immigration-a7bce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94622723204:android:0b9015b266c15b215e26d1",
+        "android_client_info": {
+          "package_name": "com.immigration.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94622723204-ct72rk42gduult05i8jqkun8novmfmu1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4SE9X1NawH5G0RMq9Nk6dsR6d347eZwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94622723204-ct72rk42gduult05i8jqkun8novmfmu1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
