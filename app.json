@@ -17,10 +17,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.immigration.immigration",
+      "buildNumber": "0.0.1"
     },
     "android": {
-      "googleServicesFile": "./google-services.json",
+      "package": "com.immigration.immigration",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
