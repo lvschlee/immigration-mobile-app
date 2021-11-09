@@ -1,51 +1,41 @@
 import React from 'react';
 
-import { View, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
 import { Post, PostType } from '../../components';
 
 import { styles } from './styles';
 
-const data: PostType[] = [
-  {
-    id: '1',
-    title: 'Двадцать тысяч лье под водой',
-    description:
-      'В 1870 году, после мучительных поисков героя, названия, сюжета, стиля произведения, Жюль Верн напечатал роман "Двадцать тысяч лье подводой".',
-  },
-  {
-    id: '2',
-    title: 'Двадцать тысяч лье под водой',
-    description:
-      'В 1870 году, после мучительных поисков героя, названия, сюжета, стиля произведения, Жюль Верн напечатал роман "Двадцать тысяч лье подводой".',
-  },
-  {
-    id: '3',
-    title: 'Двадцать тысяч лье под водой',
-    description:
-      'В 1870 году, после мучительных поисков героя, названия, сюжета, стиля произведения, Жюль Верн напечатал роман "Двадцать тысяч лье подводой".',
-  },
-  {
-    id: '4',
-    title: 'Двадцать тысяч лье под водой',
-    description:
-      'В 1870 году, после мучительных поисков героя, названия, сюжета, стиля произведения, Жюль Верн напечатал роман "Двадцать тысяч лье подводой".',
-  },
-  {
-    id: '5',
-    title: 'Двадцать тысяч лье под водой',
-    description:
-      'В 1870 году, после мучительных поисков героя, названия, сюжета, стиля произведения, Жюль Верн напечатал роман "Двадцать тысяч лье подводой".',
-  },
-];
+
+
+import { initializeApp } from 'firebase/app';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
+
+import { firebaseConfig } from '../../config';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export function BlogScreen() {
-  const renderItem = ({ item }: any) => <Post {...item} />;
+  const [posts, loading] = useCollectionData(collection(db, 'posts'), {
+    idField: 'id',
+  });
+
+  const renderItem = ({ item }: any) => <Post key={item.id} {...item} />;
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
