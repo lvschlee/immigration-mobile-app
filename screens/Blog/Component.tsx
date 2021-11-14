@@ -1,16 +1,15 @@
 import React from 'react';
 
-import { View, Text, FlatList } from 'react-native';
+import { Box, Center, FlatList, Text } from 'native-base';
+
+import { initializeApp } from 'firebase/app';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
 
 import { Post, PostType } from '../../components';
 
 import { styles } from './styles';
 
-
-
-import { initializeApp } from 'firebase/app';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { getFirestore, collection } from 'firebase/firestore';
 
 import { firebaseConfig } from '../../config';
 
@@ -26,19 +25,25 @@ export function BlogScreen() {
 
   if (loading) {
     return (
-      <View>
+      <Box>
         <Text>Loading...</Text>
-      </View>
+      </Box>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <Box style={styles.container}>
+      {posts && posts.length > 0 ? (
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <Center flex={1}>
+          <Box>На данный момент нет доступных записей</Box>
+        </Center>
+      )}
+    </Box>
   );
 }

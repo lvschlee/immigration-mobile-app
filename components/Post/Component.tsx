@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Image, Text } from 'react-native';
+import { Box, Image, Text } from 'native-base';
 
 import { styles } from './styles';
 
@@ -11,20 +11,21 @@ export type PostType = {
 };
 
 export function Post({ title, description }: PostType) {
+  const _description = description.length > 128 ? description.slice(0, 128).concat('...') : description;
   return (
-    <View style={styles.container}>
-      <View>
+    <Box style={styles.container}>
+      <Box>
         <Image
           style={styles.thumb}
           source={{
             uri: 'https://totpolyglot.com/images/stories/virtuemart/product/978-5-9951-3277-6%20p1.jpg',
           }}
         />
-      </View>
-      <View style={styles.body}>
+      </Box>
+      <Box style={styles.body}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-    </View>
+        <Text style={styles.description}>{_description}</Text>
+      </Box>
+    </Box>
   );
 }
