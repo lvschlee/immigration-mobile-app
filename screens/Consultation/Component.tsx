@@ -1,36 +1,140 @@
-import React from 'react';
+import uuid from 'react-native-uuid';
+import React, { useState } from 'react';
 
-import { View, Text, TextInput, Button } from 'react-native';
+import { doc, setDoc } from 'firebase/firestore';
+
+import { useForm, Controller } from 'react-hook-form';
+import { Heading, Box, Button, Input, Text, Alert, VStack, HStack } from 'native-base';
 
 import { styles } from './styles';
 
+import { db } from '../../firebase';
+
 export function ConsultationScreen() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fio: '',
+      phone: '',
+      email: '',
+    },
+  });
+  const onSubmit = async (data: any) => {
+    try {
+      setLoading(true);
+      const id = String(uuid.v4());
+
+      await setDoc(doc(db, 'orders', id), data);
+
+      setMessage(
+        'Ваша заявка успешно отправлена, в ближайшее время наш менеджер свяжется с вами'
+      );
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Получить консультацию</Text>
-      </View>
+    <Box style={styles.container}>
+      <Heading mb="4" textAlign="center">
+        Получить консультацию
+      </Heading>
 
-      <View style={styles.form}>
-        <View style={styles.formGroup}>
+      <Box>
+        <Box mb="6">
           <Text style={styles.label}>Фио</Text>
-          <TextInput style={styles.input} />
-        </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input onChangeText={onChange} onBlur={onBlur} value={value} />
+            )}
+            rules={{
+              required: true,
+            }}
+            name="fio"
+          />
+          {errors.fio && (
+            <Text mt="1" style={styles.error}>
+              Поле обязательно к заполнению
+            </Text>
+          )}
+        </Box>
 
-        <View style={styles.formGroup}>
+        <Box mb="6">
           <Text style={styles.label}>Номер телефона</Text>
-          <TextInput style={styles.input} />
-        </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input onChangeText={onChange} onBlur={onBlur} value={value} />
+            )}
+            rules={{
+              required: true,
+            }}
+            name="phone"
+          />
+          {errors.phone && (
+            <Text mt="1" style={styles.error}>
+              Поле обязательно к заполнению
+            </Text>
+          )}
+        </Box>
 
-        <View style={styles.formGroup}>
+        <Box mb="6">
           <Text style={styles.label}>E-mail</Text>
-          <TextInput style={styles.input} />
-        </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input onChangeText={onChange} onBlur={onBlur} value={value} />
+            )}
+            rules={{
+              required: true,
+            }}
+            name="email"
+          />
+          {errors.email && (
+            <Text mt="1" style={styles.error}>
+              Поле обязательно к заполнению
+            </Text>
+          )}
+        </Box>
 
-        <View>
-          <Button title="Отправить" onPress={console.info} />
-        </View>
-      </View>
-    </View>
+        <Box>
+          <Button onPress={handleSubmit(onSubmit)} isLoading={loading}>
+            Отправить
+          </Button>
+        </Box>
+
+        {message && (
+          <Box mt="4">
+            <Alert
+              w="100%"
+              colorScheme="success"
+              status="success"
+            >
+              <VStack space={2} flexShrink={1} w="100%">
+                <HStack
+                  flexShrink={1}
+                  space={2}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <HStack space={2} flexShrink={1} alignItems="center">
+                    <Alert.Icon />
+                    <Text color="green.900" textAlign="center" width="90%">{message}</Text>
+                  </HStack>
+                </HStack>
+              </VStack>
+            </Alert>
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 }

@@ -17,6 +17,7 @@ export function Post({ title, description }: PostType) {
       <Box>
         <Image
           style={styles.thumb}
+          alt={title}
           source={{
             uri: 'https://totpolyglot.com/images/stories/virtuemart/product/978-5-9951-3277-6%20p1.jpg',
           }}

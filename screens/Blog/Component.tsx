@@ -2,19 +2,14 @@ import React from 'react';
 
 import { Box, Center, FlatList, Text } from 'native-base';
 
-import { initializeApp } from 'firebase/app';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { getFirestore, collection } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
 
-import { Post, PostType } from '../../components';
+import { db } from '../../firebase';
+import { Post } from '../../components';
 
 import { styles } from './styles';
 
-
-import { firebaseConfig } from '../../config';
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 export function BlogScreen() {
   const [posts, loading] = useCollectionData(collection(db, 'posts'), {
