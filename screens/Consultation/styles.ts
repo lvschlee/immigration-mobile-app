@@ -13,10 +13,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 30
   },
-  form: {},
-  formGroup: {
-    marginBottom: 20
-  },
+
   label: {
     marginBottom: 5,
     textTransform: 'uppercase',
@@ -26,5 +23,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#aaaaaa',
+  },
+  error: {
+    color: 'red'
   }
 });

@@ -37,7 +37,6 @@ export function Tabs() {
         name="Blog"
         component={BlogScreen}
         options={{
-          tabBarBadge: 2,
           tabBarIcon: ({ color }) => (
             <IonicIcons name="newspaper-outline" size={24} color={color} />
           ),
