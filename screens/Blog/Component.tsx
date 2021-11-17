@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { TouchableOpacity } from 'react-native';
 import { Box, Center, FlatList, Text } from 'native-base';
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -11,12 +12,20 @@ import { Post } from '../../components';
 import { styles } from './styles';
 
 
-export function BlogScreen() {
+export function BlogScreen({ navigation }: any) {
   const [posts, loading] = useCollectionData(collection(db, 'posts'), {
     idField: 'id',
   });
 
-  const renderItem = ({ item }: any) => <Post key={item.id} {...item} />;
+  console.info(navigation);
+
+  const renderItem = ({ item }: any) => (
+    <TouchableOpacity onPress={() => navigation.navigate('PostDetails', {
+      post: item
+    }) }>
+      <Post key={item.id} {...item} />
+    </TouchableOpacity>
+  );
 
   if (loading) {
     return (
@@ -27,7 +36,7 @@ export function BlogScreen() {
   }
 
   return (
-    <Box style={styles.container}>
+    <Box p={4} style={styles.container}>
       {posts && posts.length > 0 ? (
         <FlatList
           data={posts}

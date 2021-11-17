@@ -10,9 +10,9 @@ import {
   ShopScreen,
   BlogScreen,
   ConsultationScreen,
-} from '../screens';
+} from './screens';
 
-export function Tabs() {
+export function Root() {
   return (
     <Tab.Navigator initialRouteName="Home" screenOptions={{}}>
       <Tab.Screen
