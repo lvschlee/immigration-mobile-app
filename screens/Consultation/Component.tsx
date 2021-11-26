@@ -10,9 +10,10 @@ import { styles } from './styles';
 
 import { db } from '../../firebase';
 
-export function ConsultationScreen() {
+export function ConsultationScreen({ route }: any) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
   const {
     control,
     handleSubmit,
@@ -24,12 +25,16 @@ export function ConsultationScreen() {
       email: '',
     },
   });
+
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
       const id = String(uuid.v4());
 
-      await setDoc(doc(db, 'orders', id), data);
+      await setDoc(doc(db, 'orders', id), {
+        ...data,
+        answers: route.params.answers ?? [],
+      });
 
       setMessage(
         'Ваша заявка успешно отправлена, в ближайшее время наш менеджер свяжется с вами'

@@ -17,8 +17,6 @@ export function BlogScreen({ navigation }: any) {
     idField: 'id',
   });
 
-  console.info(navigation);
-
   const renderItem = ({ item }: any) => (
     <TouchableOpacity onPress={() => navigation.navigate('PostDetails', {
       post: item
