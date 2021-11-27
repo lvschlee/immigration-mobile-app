@@ -19,6 +19,8 @@ export function Root() {
         name="Home"
         component={HomeScreen}
         options={{
+          headerTitle: 'Опрос',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <IonicIcons name="home-outline" size={24} color={color} />
           ),
@@ -28,6 +30,8 @@ export function Root() {
         name="Shop"
         component={ShopScreen}
         options={{
+          headerTitle: 'Магазин',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <IonicIcons name="cart-outline" size={24} color={color} />
           ),
@@ -37,6 +41,8 @@ export function Root() {
         name="Blog"
         component={BlogScreen}
         options={{
+          headerTitle: 'Блог',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <IonicIcons name="newspaper-outline" size={24} color={color} />
           ),
@@ -46,6 +52,8 @@ export function Root() {
         name="Consultation"
         component={ConsultationScreen}
         options={{
+          headerTitle: 'Консультация',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <IonicIcons name="help-buoy-outline" size={24} color={color} />
           ),

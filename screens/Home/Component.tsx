@@ -1,4 +1,3 @@
-import uuid from 'react-native-uuid';
 import React, { useState, useEffect } from 'react';
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -23,7 +22,7 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<any>) {
     idField: 'id',
   }) as any;
 
-  useEffect(() => {
+  const handleReset = () => {
     const firstQuestion = questions.find(
       (question: any) => question.isFirst
     ) as Question;
@@ -32,9 +31,10 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<any>) {
       const current = getQuestionWithAnswersAndIDs(firstQuestion);
 
       setCurrentQuestion(current);
-      setNextQuestionID(current.answers[0].next);
     }
-  }, [questions]);
+  };
+
+  useEffect(handleReset, [questions]);
 
   if (!questions.length || !currentQuestion) {
     return (
@@ -53,16 +53,21 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<any>) {
   };
 
   const handleClickNext = () => {
+    if (!nextQuestionID) return null;
+
     if (nextQuestionID === 'finish') {
-      return navigation.navigate('Consultation', {
-        answers: [
-          ...quizAnswers,
-          {
-            question: currentQuestion.text,
-            answer: currentQuestion.answers[0].text,
-          }
-        ],
-      });
+      const answers = [
+        ...quizAnswers,
+        {
+          question: currentQuestion.text,
+          answer: currentQuestion.answers[0].text,
+        },
+      ];
+
+      setQuizAnswers([]);
+      handleReset();
+
+      return navigation.navigate('Consultation', { answers });
     }
 
     setQuizAnswers([
@@ -70,7 +75,7 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<any>) {
       {
         question: currentQuestion.text,
         answer: currentQuestion.answers[0].text,
-      }
+      },
     ]);
 
     setCurrentQuestion(
@@ -104,7 +109,6 @@ export function HomeScreen({ navigation }: NativeStackScreenProps<any>) {
           name="answer"
           accessibilityLabel={currentQuestion.text}
           onChange={handleCheckAnswer}
-          defaultValue={currentQuestion.answers[0].id}
         >
           {currentQuestion.answers.map(({ id, text }: any) => (
             <Radio key={id} value={id} my={1}>

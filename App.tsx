@@ -20,7 +20,13 @@ export default function App() {
             component={Root}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="PostDetails" component={PostDetails} />
+          <Stack.Screen
+            name="PostDetails"
+            component={PostDetails}
+            options={{
+              headerTitle: 'Назад',
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
