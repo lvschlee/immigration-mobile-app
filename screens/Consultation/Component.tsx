@@ -4,7 +4,16 @@ import React, { useState } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 
 import { useForm, Controller } from 'react-hook-form';
-import { Heading, Box, Button, Input, Text, Alert, VStack, HStack } from 'native-base';
+import {
+  Heading,
+  Box,
+  Button,
+  Input,
+  Text,
+  Alert,
+  VStack,
+  HStack,
+} from 'native-base';
 
 import { styles } from './styles';
 
@@ -14,17 +23,18 @@ export function ConsultationScreen({ route }: any) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const defaultValues = {
+    fio: '',
+    phone: '',
+    email: '',
+  };
+
   const {
+    reset,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      fio: '',
-      phone: '',
-      email: '',
-    },
-  });
+  } = useForm({ defaultValues });
 
   const onSubmit = async (data: any) => {
     try {
@@ -36,10 +46,17 @@ export function ConsultationScreen({ route }: any) {
         answers: route.params.answers ?? [],
       });
 
+      reset(defaultValues);
       setMessage(
         'Ваша заявка успешно отправлена, в ближайшее время наш менеджер свяжется с вами'
       );
+
+      setTimeout(() => setMessage(''), 2000);
     } catch (e) {
+      setMessage(
+        'Что то пошло не так, попробуйте повторить попытку позднее'
+      );
+
       console.error(e);
     } finally {
       setLoading(false);
@@ -118,11 +135,7 @@ export function ConsultationScreen({ route }: any) {
 
         {message && (
           <Box mt="4">
-            <Alert
-              w="100%"
-              colorScheme="success"
-              status="success"
-            >
+            <Alert w="100%" colorScheme="success" status="success">
               <VStack space={2} flexShrink={1} w="100%">
                 <HStack
                   flexShrink={1}
@@ -132,7 +145,9 @@ export function ConsultationScreen({ route }: any) {
                 >
                   <HStack space={2} flexShrink={1} alignItems="center">
                     <Alert.Icon />
-                    <Text color="green.900" textAlign="center" width="90%">{message}</Text>
+                    <Text color="green.900" textAlign="center" width="90%">
+                      {message}
+                    </Text>
                   </HStack>
                 </HStack>
               </VStack>
