@@ -1,19 +1,12 @@
 import React from 'react';
 
-import {
-  Heading,
-  Box,
-  Center,
-  Text,
-  Image,
-  Button,
-} from 'native-base';
+import { Heading, Box, Center, Text, Image, Button } from 'native-base';
 
 import { SafeAreaView, ScrollView } from 'react-native';
 
 import { styles } from './styles';
 
-export function ShopScreen() {
+export function ShopScreen({ navigation }: any) {
   return (
     <SafeAreaView
       style={{
@@ -22,7 +15,7 @@ export function ShopScreen() {
       }}
     >
       <ScrollView>
-        <Box flex="1" alignItems="center" justifyItems="center" pt="3" pb="3">
+        <Box flex="1" alignItems="center" pt="3" pb="3">
           <Center style={styles.card}>
             <Image
               height={285}
@@ -70,11 +63,7 @@ export function ShopScreen() {
           </Center>
 
           <Box style={styles.footer} mt="3">
-            <Button
-              onPress={() => {
-                console.info('buy');
-              }}
-            >
+            <Button onPress={() => navigation.navigate('CardScreen', {})}>
               Купить за 3$
             </Button>
           </Box>
